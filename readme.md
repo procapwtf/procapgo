@@ -20,7 +20,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println("balance: %f", bal)
+	log.Println("balance:", bal)
 	pass, key, err := procapgo.Solve(procapgo.Options{
 		RawUrl:  "https://example.com/",
 		Sitekey: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
