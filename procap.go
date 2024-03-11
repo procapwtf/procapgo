@@ -30,6 +30,15 @@ type Options struct {
 	Apikey    string
 }
 
+type User struct {
+	DailyLimit     int     `json:"daily_limit"`
+	DailyReset     int64   `json:"next_reset"`
+	DailyUsed      int     `json:"daily_used"`
+	DailyRemaining int     `json:"daily_remaining"`
+	Funds          float64 `json:"balance"`
+	PlanExpire     int64   `json:"plan_expire"`
+}
+
 func CreateTask(o Options) (Task, error) {
 	if o.Apikey == "" && o.Sitekey == "" && o.RawUrl == "" {
 		return Task{}, errors.New("missing required parameters (apikey, sitekey, raw url)")
@@ -126,25 +135,25 @@ func Solve(o Options) (string, string, error) {
 	}
 }
 
-func GetBalance(apikey string) (float64, error) {
-	req, err := http.NewRequest(http.MethodGet, "https://api.procap.wtf/balance", nil)
+func GetUser(apikey string) (User, error) {
+	req, err := http.NewRequest(http.MethodGet, "https://api.procap.wtf/user", nil)
 	if err != nil {
-		return 0, err
+		return User{}, err
 	}
 	req.Header.Set("apikey", apikey)
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return 0, err
+		return User{}, err
 	}
 	defer resp.Body.Close()
 	b, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return 0, err
+		return User{}, err
 	}
-	var balance float64
-	err = json.Unmarshal(b, &balance)
+	var user User
+	err = json.Unmarshal(b, &user)
 	if err != nil {
-		return 0, err
+		return User{}, err
 	}
-	return balance, nil
+	return user, nil
 }
