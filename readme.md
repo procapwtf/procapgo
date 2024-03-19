@@ -42,4 +42,5 @@ func main() {
 
 ```
 
+we currntly supporting hcaptcha only
 more captchas coming soon stay updated on our [discord server](https://discord.gg/procap)
