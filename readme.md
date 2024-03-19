@@ -2,7 +2,7 @@
 
 ## installation
 
-`go get github.com/procapwtf/procapgo`
+`go get github.com/procapwtf/procapgo@v1.0.1`
 
 ## usage
 
